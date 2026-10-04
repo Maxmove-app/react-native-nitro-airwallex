@@ -11,7 +11,7 @@ cd example
 bun start
 ```
 
-In another terminal, run `bun run android` or install iOS pods with `cd example/ios && bundle exec pod install`, then `bun run ios` from `example/`. The official template's `Gemfile` pins the CocoaPods tooling; use `bundle install` first when needed.
+In another terminal, run `bun run android` or install iOS pods with `pod install` from `example/ios`, then `bun run ios` from `example/`. The release checks use CocoaPods 1.16.2 directly, matching CI.
 
 Press **Run native checks**. A pass verifies that the tarball resolves in Metro, autolinks and executes in Hermes. Re-run `bun run example:prepare` after library changes; it rebuilds/repackages and refreshes the example installation.
 
