@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { mkdirSync, readFileSync, copyFileSync } from "node:fs";
+import { mkdirSync, readFileSync, copyFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 mkdirSync("artifacts", { recursive: true });
@@ -55,7 +55,11 @@ for (const path of paths) {
 if (manifest.unpackedSize > 2_000_000)
   throw new Error(`Unexpected package size: ${manifest.unpackedSize}`);
 const archive = resolve("artifacts", manifest.filename);
-copyFileSync(archive, resolve("artifacts/react-native-nitro-airwallex.tgz"));
+// Local tarball dependencies are cached by path. Give each payload its own path
+// so the example's lockfile always verifies the artifact being tested.
+const exampleArchive = `${manifest.name}-${manifest.version}-${manifest.shasum}.tgz`;
+copyFileSync(archive, resolve("artifacts", exampleArchive));
+writeFileSync("artifacts/package-manifest.json", JSON.stringify({ exampleArchive }));
 console.log(
   JSON.stringify(
     {

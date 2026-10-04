@@ -11,9 +11,9 @@
   "dependencies": {
     "react": "19.2.3",
     "react-native": "0.86.0",
-    "react-native-safe-area-context": "^5.5.2",
-    "react-native-nitro-airwallex": "file:../artifacts/react-native-nitro-airwallex.tgz",
-    "react-native-nitro-modules": "0.36.1"
+    "react-native-nitro-airwallex": "file:../artifacts/react-native-nitro-airwallex-0.1.0-alpha.0-87978e88a341dbaed0749189ace0dbb80a7e3ffa.tgz",
+    "react-native-nitro-modules": "0.36.1",
+    "react-native-safe-area-context": "^5.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
