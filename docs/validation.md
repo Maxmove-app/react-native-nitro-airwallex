@@ -25,6 +25,17 @@ An additional iOS swipe-down test returned `cancelled`, and subsequent lifecycle
 
 The release checks typechecking, lint/format, generated-binding drift, Expo plugin behavior and Android native unit tests. The example app consumes the packed artifact, including generated native bindings. Native build and runtime results for the extracted package are recorded in its GitHub release notes; do not infer a pass from the pre-extraction table alone.
 
+For `0.1.0-alpha.1`, the extracted package passed on 2026-10-04:
+
+- TypeScript checking, lint, JavaScript/Swift/Kotlin/C++ formatting, all 7 Expo plugin tests and all 5 Android native unit tests.
+- Regeneration of all 92 generated binding files with no changes.
+- Package-content checks and a Gitleaks scan of the public repository history.
+- A normal autolinked Android arm64 debug build and an iOS simulator release build from the packed artifact.
+- Hermes runtime checks on Android API 37 and iOS 26.5: invalid payment input rejected and unconfigured wallet readiness returned `false`.
+- GitHub CI quality, Android and iOS jobs on the standalone repository.
+
+The extracted example checks do not make payment requests. Live sandbox payment coverage is recorded separately above.
+
 ## Open acceptance areas
 
 - Physical-device Apple Pay and Google Pay payments, including merchant provisioning.

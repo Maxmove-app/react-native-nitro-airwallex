@@ -1,6 +1,6 @@
 {
   "name": "react-native-nitro-airwallex",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Airwallex native checkout for React Native, powered by Nitro Modules.",
   "keywords": [
     "airwallex",
