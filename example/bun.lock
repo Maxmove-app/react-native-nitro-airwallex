@@ -8,7 +8,6 @@
         "react": "19.2.3",
         "react-native": "0.86.0",
         "react-native-nitro-airwallex": "file:../artifacts/react-native-nitro-airwallex-0.1.0-alpha.1-99049b2526b797ed684f7d4719c9dc924517cb11.tgz",
-        "react-native-nitro-airwallex": "file:../artifacts/react-native-nitro-airwallex-0.1.0-alpha.1-ffc29016e7a744c89fd51f37d8ca62e1a03ef5f6.tgz",
         "react-native-nitro-modules": "0.36.1",
         "react-native-safe-area-context": "^5.5.2",
       },
