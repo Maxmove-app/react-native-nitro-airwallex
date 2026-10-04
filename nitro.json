@@ -1,0 +1,24 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "cxxNamespace": ["nitroairwallex"],
+  "ios": {
+    "iosModuleName": "NitroAirwallex"
+  },
+  "android": {
+    "androidNamespace": ["nitroairwallex"],
+    "androidCxxLibName": "NitroAirwallex"
+  },
+  "autolinking": {
+    "AirwallexPayments": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridAirwallexPayments"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridAirwallexPayments"
+      }
+    }
+  },
+  "ignorePaths": ["**/node_modules"]
+}

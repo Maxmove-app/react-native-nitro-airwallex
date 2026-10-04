@@ -1,0 +1,21 @@
+{
+  "$schema": "https://unpkg.com/release-it@21/schema/release-it.json",
+  "git": {
+    "requireBranch": "main",
+    "commitMessage": "chore(release): ${version}\n\nPublish the validated experimental npm artifact and matching native sources.",
+    "tagName": "v${version}"
+  },
+  "npm": { "publish": true, "tag": "alpha", "publishArgs": ["--access", "public"] },
+  "github": { "release": true, "preRelease": true },
+  "hooks": {
+    "before:init": "bun run check && bun run package:check",
+    "after:bump": "bun install --ignore-scripts && bun run example:prepare",
+    "before:npm:release": "bun run package:check"
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "conventionalcommits",
+      "infile": "CHANGELOG.md"
+    }
+  }
+}

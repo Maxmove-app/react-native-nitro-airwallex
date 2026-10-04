@@ -1,0 +1,62 @@
+buildscript {
+  repositories { google(); mavenCentral() }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:8.12.0'
+    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.20'
+  }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply from: '../nitrogen/generated/android/NitroAirwallex+autolinking.gradle'
+
+def configured(name, fallback) { rootProject.ext.has(name) ? rootProject.ext.get(name) : fallback }
+
+android {
+  namespace 'com.margelo.nitro.nitroairwallex'
+  compileSdk configured('compileSdkVersion', 36)
+  ndkVersion configured('ndkVersion', '27.1.12297006')
+  defaultConfig {
+    minSdk configured('minSdkVersion', 24)
+    targetSdk configured('targetSdkVersion', 36)
+    externalNativeBuild {
+      cmake {
+        cppFlags '-frtti -fexceptions -Wall -Wextra'
+        arguments '-DANDROID_STL=c++_shared', '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
+        abiFilters(*(rootProject.findProperty('reactNativeArchitectures') ?: 'arm64-v8a,x86_64').split(','))
+      }
+    }
+  }
+  externalNativeBuild { cmake { path 'CMakeLists.txt' } }
+  buildFeatures { prefab true }
+  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+  kotlinOptions { jvmTarget = '17' }
+  packagingOptions {
+    jniLibs.excludes += ['**/libc++_shared.so', '**/libNitroModules.so', '**/libfbjni.so', '**/libjsi.so', '**/libreactnative.so']
+  }
+}
+
+repositories { google(); mavenCentral() }
+
+dependencies {
+  implementation 'com.facebook.react:react-android:+'
+  implementation project(':react-native-nitro-modules')
+  // Airwallex 6.11.0 declares this unused legacy runtime alongside Parcelize.
+  // It duplicates parcel classes in Kotlin 2.2.20+ hosts. Keep Parcelize and
+  // remove this exclusion when the pinned Airwallex POM drops the legacy edge.
+  implementation('io.github.airwallex:payment:6.11.0') {
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-android-extensions-runtime'
+  }
+  implementation('io.github.airwallex:payment-card:6.11.0') {
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-android-extensions-runtime'
+  }
+  implementation('io.github.airwallex:payment-googlepay:6.11.0') {
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-android-extensions-runtime'
+  }
+  // Used directly by wallet readiness; Airwallex declares both as implementation-only.
+  implementation 'com.google.android.gms:play-services-wallet:19.4.0'
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.0'
+  implementation 'androidx.activity:activity-ktx:1.10.1'
+  implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.7'
+  testImplementation 'junit:junit:4.13.2'
+}

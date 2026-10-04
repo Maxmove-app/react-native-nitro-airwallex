@@ -1,0 +1,12 @@
+android/build/
+android/.cxx/
+android/.gradle/
+android/local.properties
+example/
+native-tests/
+tests/
+scripts/
+node_modules/
+.env*
+.npmrc
+*.tgz

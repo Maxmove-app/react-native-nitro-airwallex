@@ -1,0 +1,18 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.facebook.react'
+def packageDirectory(String name) {
+  return new File(providers.exec {
+    workingDir(rootProject.file('../..'))
+    commandLine('node', '--print', "require.resolve('${name}/package.json', { paths: [require.resolve('react-native/package.json')] })")
+  }.standardOutput.asText.get().trim()).parentFile
+}
+react {
+  root = rootProject.file('../..')
+  reactNativeDir = packageDirectory('react-native')
+  codegenDir = packageDirectory('@react-native/codegen')
+}
+android {
+  namespace 'dev.nitro.airwallex.tests'
+  compileSdk rootProject.ext.compileSdkVersion
+  defaultConfig { minSdk rootProject.ext.minSdkVersion; targetSdk rootProject.ext.targetSdkVersion }
+}

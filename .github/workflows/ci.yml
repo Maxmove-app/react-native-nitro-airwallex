@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.4.2
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run codegen && git diff --exit-code -- nitrogen/generated
+      - run: bun run package:check
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+      - run: uvx --from clang-format==19.1.7 clang-format --dry-run --Werror android/src/main/cpp/cpp-adapter.cpp
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.4.2
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
+      - uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
+      - run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0' 'ndk;27.1.12297006'
+      - run: |
+          curl --fail --location --output /tmp/ktlint https://github.com/ktlint/ktlint/releases/download/1.8.0/ktlint
+          echo 'a3fd620207d5c40da6ca789b95e7f823c54e854b7fade7f613e91096a3706d75  /tmp/ktlint' | sha256sum --check
+          chmod +x /tmp/ktlint
+          /tmp/ktlint 'android/src/**/*.kt'
+      - run: bun install --frozen-lockfile
+      - run: bun run test:android
+      - run: bun run example:prepare
+      - run: bunx tsc --noEmit
+        working-directory: example
+      - run: ./gradlew :app:assembleDebug -PreactNativeArchitectures=arm64-v8a --max-workers=2 --console=plain
+        working-directory: example/android
+
+  ios:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.4.2
+      - run: xcrun swift-format lint --strict --recursive ios
+      - run: bun install --frozen-lockfile
+      - run: bun run example:prepare
+      - run: pod install
+        working-directory: example/ios
+      - run: >-
+          xcodebuild -workspace NitroAirwallexExample.xcworkspace
+          -scheme NitroAirwallexExample -configuration Debug
+          -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath build -jobs 2 CODE_SIGNING_ALLOWED=NO build
+        working-directory: example/ios

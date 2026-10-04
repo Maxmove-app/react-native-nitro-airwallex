@@ -1,0 +1,95 @@
+{
+  "name": "react-native-nitro-airwallex",
+  "version": "0.1.0-alpha.0",
+  "description": "Airwallex native checkout for React Native, powered by Nitro Modules.",
+  "keywords": [
+    "airwallex",
+    "android",
+    "apple-pay",
+    "google-pay",
+    "ios",
+    "nitro-modules",
+    "payments",
+    "react-native"
+  ],
+  "homepage": "https://github.com/Maxmove-app/react-native-nitro-airwallex#readme",
+  "bugs": {
+    "url": "https://github.com/Maxmove-app/react-native-nitro-airwallex/issues"
+  },
+  "license": "MIT",
+  "author": "Maxmove",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Maxmove-app/react-native-nitro-airwallex.git"
+  },
+  "source": "src/index.ts",
+  "files": [
+    "app.plugin.js",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "docs",
+    "examples",
+    "lib",
+    "LICENSE",
+    "nitro.json",
+    "NitroAirwallex.podspec",
+    "plugin",
+    "react-native.config.js",
+    "README.md",
+    "SECURITY.md",
+    "src",
+    "android/build.gradle",
+    "android/CMakeLists.txt",
+    "nitrogen/generated",
+    "android/src/main",
+    "ios/**/*.swift"
+  ],
+  "sideEffects": false,
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "react-native": "src/index.ts",
+  "publishConfig": {
+    "access": "public",
+    "tag": "alpha"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "codegen": "nitrogen",
+    "lint": "oxlint --quiet src examples native-tests plugin tests app.plugin.js react-native.config.js",
+    "test": "bun test tests",
+    "test:android": "cd native-tests/android && ./gradlew :react-native-nitro-airwallex:testDebugUnitTest --max-workers=2 --console=plain",
+    "build": "tsc -p tsconfig.build.json",
+    "format": "oxfmt src examples native-tests/lifecycle.ts plugin tests scripts package.json tsconfig.json tsconfig.build.json react-native.config.js app.plugin.js",
+    "format:check": "bun run format --check",
+    "check": "bun run typecheck && bun run lint && bun run format:check && bun test tests && bun run build",
+    "prepack": "bun run build",
+    "release": "release-it",
+    "package:check": "bun run build && node scripts/package-check.mjs",
+    "example:prepare": "node scripts/prepare-example.mjs"
+  },
+  "devDependencies": {
+    "@release-it/conventional-changelog": "12.0.2",
+    "@types/react": "^19.2.15",
+    "expo": "57.0.8",
+    "nitrogen": "0.36.1",
+    "oxfmt": "0.26.0",
+    "oxlint": "1.50.0",
+    "react": "19.2.3",
+    "react-native": "0.86.0",
+    "react-native-nitro-modules": "0.36.1",
+    "release-it": "21.1.0",
+    "typescript": "7.0.2"
+  },
+  "peerDependencies": {
+    "expo": ">=57 <58",
+    "react": ">=19.2 <20",
+    "react-native": ">=0.86 <0.87",
+    "react-native-nitro-modules": "^0.36.1"
+  },
+  "peerDependenciesMeta": {
+    "expo": {
+      "optional": true
+    }
+  },
+  "packageManager": "bun@1.4.2"
+}

@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <uses-permission android:name="android.permission.INTERNET" />
+  <application>
+    <provider android:name="com.margelo.nitro.nitroairwallex.AirwallexStartupProvider"
+      android:authorities="${applicationId}.nitro-airwallex-startup"
+      android:exported="false" />
+  </application>
+</manifest>
