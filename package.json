@@ -12,15 +12,15 @@
     "payments",
     "react-native"
   ],
-  "homepage": "https://github.com/Maxmove-app/react-native-nitro-airwallex#readme",
+  "homepage": "https://github.com/maxvaljan/react-native-nitro-airwallex#readme",
   "bugs": {
-    "url": "https://github.com/Maxmove-app/react-native-nitro-airwallex/issues"
+    "url": "https://github.com/maxvaljan/react-native-nitro-airwallex/issues"
   },
   "license": "MIT",
-  "author": "Maxmove",
+  "author": "Max Valjan (https://github.com/maxvaljan)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Maxmove-app/react-native-nitro-airwallex.git"
+    "url": "https://github.com/maxvaljan/react-native-nitro-airwallex.git"
   },
   "source": "src/index.ts",
   "files": [

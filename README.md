@@ -4,7 +4,7 @@ Airwallex native payment sheets, saved cards and wallets for React Native, power
 
 **Experimental alpha.** The API may change. Card payment and setup flows have sandbox coverage; physical-device wallet payments and interruption recovery still need broader validation. Read the [validation record and limitations](docs/validation.md) before adopting it.
 
-Community-maintained by Maxmove. This package is not an official Airwallex SDK.
+Created and maintained by [Max Valjan](https://github.com/maxvaljan). Used at [Maxmove](https://maxmove.com). This community package is not an official Airwallex SDK.
 
 ## Install
 

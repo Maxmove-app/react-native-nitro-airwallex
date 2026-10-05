@@ -5,10 +5,10 @@ Pod::Spec.new do |s|
   s.name = 'NitroAirwallex'
   s.version = package['version']
   s.summary = package['description']
-  s.homepage = 'https://github.com/Maxmove-app/react-native-nitro-airwallex'
+  s.homepage = 'https://github.com/maxvaljan/react-native-nitro-airwallex'
   s.license = { :type => package['license'], :file => 'LICENSE' }
   s.authors = package['author']
-  s.source = { :git => 'https://github.com/Maxmove-app/react-native-nitro-airwallex.git', :tag => "v#{s.version}" }
+  s.source = { :git => 'https://github.com/maxvaljan/react-native-nitro-airwallex.git', :tag => "v#{s.version}" }
   s.platforms = { :ios => '15.1' }
   s.swift_version = '5.10'
   s.source_files = 'ios/**/*.swift'
